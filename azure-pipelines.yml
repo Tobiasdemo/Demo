@@ -5,7 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  azureSubscription: 'Azure subscription 1'
+  azureSubscription: 'Azure Recourse Manger Service Principal'
   resourceGroupName: 'Resourcegroep1'
   storageAccountName: 'azuredatalakestaging'
   containerName: 'stagingcontainer'
