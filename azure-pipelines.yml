@@ -5,7 +5,7 @@ pool:
   vmImage: 'SelfHostedPool' # agent
 
 variables:
-  azureSubscription: 'Azure Recourse Manger Service Principal' # Service Principal
+  azureSubscription: 'MainServicePrincipal' # Service Principal
   resourceGroupName: 'Resourcegroep1'
   storageAccountName: 'azuredatalakestaging'
   containerName: 'stagingcontainer'
