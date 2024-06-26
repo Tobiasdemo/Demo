@@ -10,6 +10,7 @@ steps:
 
 - script: |
     echo "Testing the agent configuration"
-    uname -a
-    date
+    systeminfo
+    date /t
+    time /t
   displayName: 'Run a multi-line script'
