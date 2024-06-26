@@ -2,10 +2,10 @@ trigger:
 - main
 
 pool:
-  vmImage: 'SelfHostedPool'
+  vmImage: 'SelfHostedPool' # agent
 
 variables:
-  azureSubscription: 'Azure Recourse Manger Service Principal'
+  azureSubscription: 'Azure Recourse Manger Service Principal' # Service Principal
   resourceGroupName: 'Resourcegroep1'
   storageAccountName: 'azuredatalakestaging'
   containerName: 'stagingcontainer'
