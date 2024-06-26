@@ -1,0 +1,15 @@
+trigger:
+- main
+
+pool:
+  name: 'SelfHostedPool'  # Gebruik de naam van je zelf-hosted agent pool
+
+steps:
+- script: echo Hello, World!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo "Testing the agent configuration"
+    uname -a
+    date
+  displayName: 'Run a multi-line script'
