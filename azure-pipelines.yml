@@ -15,37 +15,12 @@ variables:
   adminPassword: '$(adminPassword)' # Beveiligde variabele
 
 steps:
-- checkout: self
+- script: echo Hello, World!
+  displayName: 'Run a one-line script'
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: '$(azureSubscription)'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      # Install SQLCMD if not available
-      if ! command -v sqlcmd &> /dev/null
-      then
-          echo "sqlcmd could not be found, installing..."
-          curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-          curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/msprod.list
-          apt-get update
-          apt-get install mssql-tools unixodbc-dev -y
-      fi
-
-      # Export SQL data to a file
-      sqlcmd -S $(serverName) -d $(databaseName) -U $(adminUsername) -P $(adminPassword) -Q "SELECT * FROM your_table_name" -o /tmp/your_data.csv -s"," -W -w 1024
-
-      # Install Azure CLI if not available
-      if ! command -v az &> /dev/null
-      then
-          echo "Azure CLI could not be found, installing..."
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-      fi
-
-      # Upload the file to Azure Storage
-      az storage blob upload \
-        --account-name $(storageAccountName) \
-        --container-name $(containerName) \
-        --name your_data.csv \
-        --file /tmp/your_data.csv
+- script: |
+    echo "Testing the agent configuration"
+    systeminfo
+    date /t
+    time /t
+  displayName: 'Run a multi-line script'
