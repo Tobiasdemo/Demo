@@ -1,39 +1,13 @@
 trigger:
-- main
+- main  # Vervang 'main' door de naam van je hoofdbranch indien nodig
 
 pool:
-  name: 'SelfHostedPool'  # Zorg ervoor dat dit exact overeenkomt met de naam van je zelf-hosted agent pool
-
-variables:
-- group: 'New variable group 26-jun'  # Voeg hier de naam van je variabele groep toe
+  vmImage: 'ubuntu-latest'  # Gebruik een Microsoft-hosted agent
 
 steps:
-- checkout: self
-
-- powershell: |
-    # Install SQLCMD if not available
-    if (-not (Get-Command sqlcmd -ErrorAction SilentlyContinue)) {
-        Write-Host "sqlcmd could not be found, installing..."
-        Invoke-WebRequest -Uri https://aka.ms/sqldownload -OutFile C:\sqlpackage.msi
-        Start-Process msiexec.exe -ArgumentList '/I C:\sqlpackage.msi /quiet' -Wait
-        Remove-Item C:\sqlpackage.msi
-    }
-
-    # Export SQL data to a file
-    sqlcmd -S $(serverName) -d $(databaseName) -U $(adminUsername) -P $(adminPassword) -Q "SELECT * FROM your_table_name" -o "C:\agent\_work\1\s\your_data.csv" -s"," -W -w 1024
-
-    # Install Azure CLI if not available
-    if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
-        Write-Host "Azure CLI could not be found, installing..."
-        Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile C:\AzureCLI.msi
-        Start-Process msiexec.exe -ArgumentList '/I C:\AzureCLI.msi /quiet' -Wait
-        Remove-Item C:\AzureCLI.msi
-    }
-
-    # Upload the file to Azure Storage
-    az storage blob upload `
-        --account-name $(storageAccountName) `
-        --container-name $(containerName) `
-        --name your_data.csv `
-        --file "C:\agent\_work\1\s\your_data.csv"
-  displayName: 'Run PowerShell script'
+- script: |
+    echo "Hello, World!"
+    echo "Agent is working correctly."
+    pwd  # Print de huidige directory
+    ls -la  # Lijst de bestanden in de huidige directory
+  displayName: 'Verify Agent Functionality'
