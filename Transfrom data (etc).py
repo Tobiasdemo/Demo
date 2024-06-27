@@ -1,7 +1,52 @@
 # Databricks notebook source
-# Lees de gegevens van de ChartHits1980 tabel
+# Read ChartHits1980 tabel data
 df = spark.sql("SELECT * FROM ChartHits1980")
 
+
+
+# COMMAND ----------
+
+# Remove duplicates
+df_clean = df.dropDuplicates(["ChartPosition", "ReachedNumberOne", "Artists", "Single", "RecordLabel"])
+
+
+# COMMAND ----------
+
+
+# Validate data types & formats
+from pyspark.sql.functions import col, to_date
+
+# Convert ReachedNumberOne to date
+df_clean = df_clean.withColumn("ReachedNumberOne", to_date(col("ReachedNumberOne"), "yyyy-MM-dd"))
+
+# Filter out rows with invalid data types
+df_clean = df_clean.filter(col("ChartPosition").cast("int").isNotNull() & col("WeeksAtNumberOne").cast("int").isNotNull())
+
+
+
+# COMMAND ----------
+
+# Remove incomplete/wrong data
+df_clean = df_clean.dropna(subset=["ChartPosition", "ReachedNumberOne", "Artists"])
+
+
+# COMMAND ----------
+
+
+# Data normalisation (data standaardiseren)
+from pyspark.sql.functions import trim, lower
+
+df_clean = df_clean.withColumn("Artists", lower(trim(col("Artists")))) \
+                   .withColumn("Single", lower(trim(col("Single")))) \
+                   .withColumn("RecordLabel", lower(trim(col("RecordLabel"))))
+
+
+
+# COMMAND ----------
+
+
+# Apply Business Rules
+df_clean = df_clean.withColumn("ChartPosition", abs(col("ChartPosition")))
 
 
 # COMMAND ----------
