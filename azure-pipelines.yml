@@ -2,7 +2,7 @@ trigger:
 - main  # Vervang 'main' door de naam van je hoofdbranch indien nodig
 
 pool:
-  vmImage: 'ubuntu-latest'  # Gebruik een Microsoft-hosted agent
+  vmImage: 'SelfHostedPool'  # Gebruik een Microsoft-hosted agent
 
 steps:
 - script: |
