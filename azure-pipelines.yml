@@ -1,13 +1,12 @@
 trigger:
-- main  # Vervang 'main' door de naam van je hoofdbranch indien nodig
+- main 
 
 pool:
-  name: 'SelfHostedPool'  # Gebruik een Microsoft-hosted agent
+  name: 'SelfHostedPool'  # De Microsoft-hosted agent, ivm Parallelism
 
 steps:
 - script: |
     echo "Hello, World!"
     echo "Agent is working correctly."
-    pwd  # Print de huidige directory
-    ls -la  # Lijst de bestanden in de huidige directory
   displayName: 'Verify Agent Functionality'
+
